@@ -1,0 +1,6 @@
+---
+- name: Public-Server-Setup
+  hosts: localhost
+  become: true
+  roles:
+    - nexus

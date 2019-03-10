@@ -1,0 +1,35 @@
+---
+- name: Install list of packages
+  package:
+    name: software-properties-common                
+    state: present
+
+- name: AddOracle Java Repository                 
+  apt_repository:	               
+    repo: 'ppa:webupd8team/java' 	      
+
+- name: Install Java          
+  package: 
+     name: openjdk-8-jdk
+     state: present 
+
+- name: ensure the jenkins apt repository key is installed
+  apt_key: 
+    url: https://pkg.jenkins.io/debian/jenkins-ci.org.key 
+    state: present
+ 
+- name: ensure the repository is configured
+  apt_repository: 
+    repo: 'deb https://pkg.jenkins.io/debian-stable binary/'
+    state: present
+      
+- name: ensure jenkins is installed
+  package:
+    name: jenkins 
+    update_cache: yes
+    state: present                     
+
+- name: install maven
+  package:
+    name: maven
+    state: present

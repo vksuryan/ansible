@@ -1,0 +1,9 @@
+---
+- hosts: ip-10-0-1-156
+  gather_facts: no
+  tasks:
+    - name: Checking python is installed
+      raw: python --version
+      register: result
+    - raw: (apt -y update && apt install -y python-minimal)
+      when: result is failed

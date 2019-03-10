@@ -1,0 +1,37 @@
+---
+- name: adding group nexus
+  group:
+    name: nexus
+
+- name: adding user nexus
+  user:
+    name: nexus
+    group: nexus
+    home: /usr/share/nexus
+    createhome: no
+
+- name: Download nexus
+  get_url:
+    url: https://download.sonatype.com/nexus/3/latest-unix.tar.gz
+    dest: /opt/
+
+- name: extract archive
+  unarchive:
+    src: /opt/nexus-3.15.2-01-unix.tar.gz
+    dest: /opt/
+    remote_src: yes
+
+- name: rename nexus-3.15.2-01
+  command: mv /opt/nexus-3.15.2-01  /opt/nexus
+
+- name: permission
+  file:
+    path: /opt/nexus
+    state: directory
+    owner: nexus
+    group: nexus
+    mode: 0777
+    recurse: yes
+
+- name: Execute the script
+  command: bash /opt/nexus/bin/./nexus start

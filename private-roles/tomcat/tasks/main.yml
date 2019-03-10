@@ -1,0 +1,35 @@
+---
+- name: Install list of packages
+  package:
+    name: software-properties-common
+    state: present
+
+- name: Add Oracle Java Repository
+  apt_repository:
+    repo: 'ppa:webupd8team/java'
+
+- name: Install Java
+  package:
+     name: openjdk-8-jdk
+     state: present
+
+- name: Create Folder
+  file:
+    path: /home/ubuntu/tomcat
+    state: directory
+    mode: 0755
+    owner: ubuntu
+    group: ubuntu
+
+- name: Download Tomcat
+  get_url:
+    url: http://www-eu.apache.org/dist/tomcat/tomcat-9/v9.0.14/bin/apache-tomcat-9.0.14.tar.gz
+    dest: /home/ubuntu/tomcat/
+
+- name: Extract Archive
+  unarchive:
+    src: /home/ubuntu/tomcat/apache-tomcat-9*.tar.gz
+    dest: /home/ubuntu/tomcat
+
+- name: Start Apache-Tomcat Server
+  shell: /home/ubuntu/tomcat/apache-tomcat-9.0.14/bin/startup.sh

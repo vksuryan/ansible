@@ -1,0 +1,6 @@
+---
+- name: Public-Server-Setup
+  hosts: tomcat-server-1
+  become: true
+  roles:
+    - tomcat
